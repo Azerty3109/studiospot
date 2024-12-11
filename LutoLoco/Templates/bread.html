@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bread Recipes</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Style */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            width: 100%;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            position: fixed;
+            top: 0;
+            z-index: 10;
+        }
+
+        .top-nav h2 {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .back-btn,
+        .search-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .back-btn:hover,
+        .search-btn:hover {
+            color: #000;
+        }
+
+        /* Categories Section */
+        .categories {
+            display: flex;
+            align-items: center;
+            margin-top: 80px; /* Adjust for fixed top-nav */
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .recipe-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .recipe-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .recipe-card h3 {
+            margin: 15px 0 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .recipe-card p {
+            margin-bottom: 15px;
+            font-size: 1em;
+            color: #666;
+        }
+
+        .recipe-card a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+        .recipe-card a:hover {
+            color: #0056b3;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 10px 0;
+            border-top: 1px solid #e0e0e0;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #888;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nav-btn.active,
+        .nav-btn:hover {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <a href="{{ url_for('recipe') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+        <h2>Bread Recipes</h2>
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="categories">
+        <div class="cards">
+            {% for recipe in bread_recipes %}
+            <div class="recipe-card">
+                <img src="{{ recipe.image_url }}" alt="{{ recipe.name }}">
+                <h3>{{ recipe.name }}</h3>
+                <p>Time: {{ recipe.time }}</p>
+                <a href="{{ url_for('ingredient', category='Bread', name=recipe.name) }}">View Ingredients</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="{{ url_for('main_dashboard') }}" class="nav-btn"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="nav-btn active"><i class="fas fa-book-open"></i> Recipes</a>
+        <a href="{{ url_for('favorite_list') }}" class="nav-btn"><i class="fas fa-heart"></i> Favorites</a>
+    </div>
+</body>
+</html>
